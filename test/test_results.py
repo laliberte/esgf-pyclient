@@ -4,7 +4,7 @@ Test the Results classes
 """
 
 import re
-from urlparse import urlparse
+from six.moves.urllib.parse import urlparse
 
 from pyesgf.search.connection import SearchConnection
 
@@ -118,7 +118,7 @@ def test_other_index_node():
 
     r1 = results[0]
     service = urlparse(TEST_SERVICE)
-    print 'index_node = %s' % r1.index_node
+    print('index_node = %s' % r1.index_node)
     
     assert r1.index_node is not None
     assert r1.index_node != service.hostname
@@ -163,12 +163,12 @@ def test_shards_constrain2():
     ds = s[0]
 
     publicationDataset, server = ds.dataset_id.split('|')
-    print publicationDataset, server, ds.json['replica']
+    print(publicationDataset, server, ds.json['replica'])
     
     searchContext = ds.file_context()
     searchContext=searchContext.constrain(variable='pr')
     for j in searchContext.search():
-        print j.download_url, j.checksum, j.checksum_type, j.size
+        print(j.download_url, j.checksum, j.checksum_type, j.size)
 
 def test_shards_constrain3():
     # Regression test for issue #8 reported by ian.edmond@metoffice.gov.uk
@@ -180,12 +180,12 @@ def test_shards_constrain3():
     ds = s[0]
 
     publicationDataset, server = ds.dataset_id.split('|')
-    print publicationDataset, server, ds.json['replica']
+    print(publicationDataset, server, ds.json['replica'])
     
     searchContext = ds.file_context()
     searchContext=searchContext.constrain(variable='pr')
     for j in searchContext.search():
-        print j.download_url, j.checksum, j.checksum_type, j.size
+        print(j.download_url, j.checksum, j.checksum_type, j.size)
 
 
 def test_shards_constrain4():
@@ -198,9 +198,9 @@ def test_shards_constrain4():
     ds = s[0]
 
     publicationDataset, server = ds.dataset_id.split('|')
-    print publicationDataset, server, ds.json['replica']
+    print(publicationDataset, server, ds.json['replica'])
     
     searchContext = ds.file_context()
     searchContext=searchContext.constrain(variable='tas')
     for j in searchContext.search():
-        print j.download_url, j.checksum, j.checksum_type, j.size
+        print(j.download_url, j.checksum, j.checksum_type, j.size)

@@ -49,7 +49,7 @@ class TestOpendap(TestCase):
         lm = LogonManager(self.esgf_dir, dap_config=self.dap_config)
         config = self.read_config()
         
-        print config
+        print(config)
         assert re.match(r'\s*^# BEGIN {0}$.*^# END {0}$'.format(DAP_CONFIG_MARKER),
                         config, re.M | re.S)
 
@@ -62,7 +62,7 @@ class TestOpendap(TestCase):
         lm = LogonManager(self.esgf_dir, dap_config=self.dap_config)
         config = self.read_config()
 
-        print config
+        print(config)
         assert self.check_preamble(preamble, config)
 
     def test_config3(self):
@@ -93,7 +93,7 @@ CURL.SSL.CAPATH=/tmp/foo/certificates/certificates
         lm = LogonManager(self.esgf_dir, dap_config=self.dap_config)
         config1 = self.read_config()
         
-        print config1
+        print(config1)
         assert self.check_preamble(preamble, config1)
         assert self.check_postamble(postamble, config1)
     
@@ -102,7 +102,7 @@ CURL.SSL.CAPATH=/tmp/foo/certificates/certificates
         import netCDF4
 
         lm = LogonManager(self.esgf_dir, dap_config=self.dap_config)
-        print 'Using dap_config at %s' % self.dap_config
+        print('Using dap_config at %s' % self.dap_config)
 
         conn = SearchConnection(TEST_SERVICE, distrib=False)
 
@@ -116,10 +116,10 @@ CURL.SSL.CAPATH=/tmp/foo/certificates/certificates
         file_results = f_ctx.search()
         
         opendap_url = file_results[0].opendap_url
-        print 'OPeNDAP URL is %s' % opendap_url
+        print('OPeNDAP URL is %s' % opendap_url)
 
         ds = netCDF4.Dataset(opendap_url)
-        print ds.variables.keys()
+        print(ds.variables.keys())
     test_open_url.__test__ = False
 
 

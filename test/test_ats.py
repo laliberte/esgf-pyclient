@@ -17,6 +17,7 @@ def test_ceda_ats():
     assert resp.get_subject() == OPENID
     
     attrs = resp.get_attributes()
+    print(attrs)
     assert attrs['urn:esg:first:name'] == fn
     assert attrs['urn:esg:last:name'] == ln
     

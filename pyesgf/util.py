@@ -4,7 +4,8 @@ Utility functions using the pyesgf package.
 """
 
 import sys
-from urllib import quote_plus, _is_unicode
+from builtins import str as text
+from six.moves.urllib.parse import quote_plus
 
 def get_manifest(drs_id, version, connection):
     """
@@ -70,7 +71,7 @@ def urlencode(query):
             # preserved for consistency
         except TypeError:
             ty,va,tb = sys.exc_info()
-            raise TypeError, "not a valid non-string sequence or mapping object", tb
+            raise(TypeError, "not a valid non-string sequence or mapping object", tb)
 
 
     def append(k, v, tag, l):
@@ -98,7 +99,8 @@ def urlencode(query):
         if isinstance(v, str):
             v = quote_plus(v)
             append(k, v, tag, l)
-        elif _is_unicode(v):
+        elif isinstance(v, text):
+            # it is a text type but not a string:
             # is there a reasonable way to convert to ASCII?
             # encode generates a string, but "replace" or "ignore"
             # lose information and "strict" can raise UnicodeError

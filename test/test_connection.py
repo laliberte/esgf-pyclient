@@ -3,36 +3,40 @@ Test SearchConnection object
 
 """
 
-#!TODO: replace calls to the a live search service with a mock.
-#!TODO: Test for HTTP proxies
+# !TODO: replace calls to the a live search service with a mock.
+# !TODO: Test for HTTP proxies
 
 import nose.tools as nt
 
 from pyesgf.search.connection import SearchConnection
 import pyesgf.search.exceptions as exc
 
-from .config import TEST_SERVICE
+from .config import TEST_SERVICE, CACHE_FILE
+
 
 def test_blank_query():
     conn = SearchConnection(TEST_SERVICE)
     json = conn.send_search({})
 
-    assert json.keys() == [u'facet_counts', u'responseHeader', u'response']
-    
+    assert set(json.keys()) == set([u'facet_counts', u'responseHeader', u'response'])
+
+
 def test_get_shard_list_fail():
-    conn = SearchConnection(TEST_SERVICE, distrib=False)
+    conn = SearchConnection(TEST_SERVICE, distrib=False, cache=CACHE_FILE)
     nt.assert_raises(exc.EsgfSearchException, conn.get_shard_list)
 
+
 def test_get_shard_list():
-    conn = SearchConnection(TEST_SERVICE, distrib=True)
+    conn = SearchConnection(TEST_SERVICE, distrib=True, cache=CACHE_FILE)
     shards = conn.get_shard_list()
-    #!NOTE: the exact shard list will change depending on the shard replication configuration
-    #    on the test server
+    # !NOTE: the exact shard list will change depending on the shard
+    #        replication configuration
+    #        on the test server
     assert 'esgf-index2.ceda.ac.uk' in shards
     # IPSL now replicates all non-local shards.  Just check it has a few shards
     assert len(shards['esgf-index2.ceda.ac.uk']) > 3
-    
-    
+
+
 def test_url_fixing():
     conn1 = SearchConnection(TEST_SERVICE)
     conn2 = SearchConnection(TEST_SERVICE+'/')

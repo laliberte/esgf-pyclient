@@ -9,11 +9,11 @@ Tests whether the "from_timestamp" and "to_timestamp" options are working in esg
 """
 
 from pyesgf.search import SearchConnection
-
+from .config import CACHE_FILE
 
 def test_temporal_search_CMIP5():
     conn = SearchConnection('http://esgf-index1.ceda.ac.uk/esg-search',
-                        distrib=False)
+                        distrib=False, cache=CACHE_FILE)
 
     ctx1 = conn.new_context(project = "CMIP5", model = "HadGEM2-ES",
           time_frequency = "mon", realm = "atmos", ensemble = "r1i1p1", latest = True)
@@ -25,7 +25,8 @@ def test_temporal_search_CMIP5():
     assert ctx2.hit_count < ctx1.hit_count 
 
 def test_temporal_search_CORDEX():
-    conn = SearchConnection("http://esgf-data.dkrz.de/esg-search", distrib=True)
+    conn = SearchConnection("http://esgf-data.dkrz.de/esg-search", distrib=True,
+                            cache=CACHE_FILE)
 
     ctx1 = conn.new_context(project='CORDEX',
            from_timestamp="1990-01-01T12:00:00Z",

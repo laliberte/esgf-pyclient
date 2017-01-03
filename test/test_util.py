@@ -7,12 +7,13 @@ import re
 
 from pyesgf.search.connection import SearchConnection
 from pyesgf.util import get_manifest
+from .config import CACHE_FILE
 
 #!TODO: Make this one of the test services.
 CEDA_SERVICE = 'http://esgf-index1.ceda.ac.uk/esg-search'
 
 def test_get_manifest():
-    conn = SearchConnection(CEDA_SERVICE, distrib=False)
+    conn = SearchConnection(CEDA_SERVICE, distrib=False, cache=CACHE_FILE)
 
     manifest = get_manifest('GeoMIP.output.MOHC.HadGEM2-ES.G1.day.atmos.day.r1i1p1',
                          20120223, conn)
@@ -22,7 +23,7 @@ def test_get_manifest():
 
 #!TODO: this test belongs somewhere else
 def test_opendap_url():
-    conn = SearchConnection(CEDA_SERVICE, distrib=False)
+    conn = SearchConnection(CEDA_SERVICE, distrib=False, cache=CACHE_FILE)
 
     ctx = conn.new_context()
     results = ctx.search(drs_id='GeoMIP.output.MOHC.HadGEM2-ES.G1.day.atmos.day.r1i1p1')
@@ -34,15 +35,15 @@ def test_opendap_url():
     # Take first aggregation
     agg = aggs[0]
      
-    print agg.aggregation_id
-    print agg.json['cf_standard_name']
-    print agg.urls
+    print(agg.aggregation_id)
+    print(agg.json['cf_standard_name'])
+    print(agg.urls)
 
     opendap_url = agg.opendap_url
-    print opendap_url
+    print(opendap_url)
 
 def test_download_url():
-    conn = SearchConnection(CEDA_SERVICE, distrib=False)
+    conn = SearchConnection(CEDA_SERVICE, distrib=False, cache=CACHE_FILE)
 
     ctx = conn.new_context()
     results = ctx.search(drs_id='GeoMIP.output.MOHC.HadGEM2-ES.G1.day.atmos.day.r1i1p1')
